@@ -3,38 +3,56 @@
 
 // we've started you off with Express (https://expressjs.com/)
 // but feel free to use whatever libraries or frameworks you'd like through `package.json`.
-const express = require('express');
+const express = require("express");
+var bodyParser = require("body-parser");
 const app = express();
 
-app.set('view engine', 'pug');
-app.set('views', './views');
+app.set("view engine", "pug");
+app.set("views", "./views");
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// parse application/json
+app.use(bodyParser.json());
 
 var todoLists = [
-{ id: 1, content: 'Đi chợ'},
-{ id: 2, content: 'Nấu cơm'},
-{ id: 3, content: 'Rửa bát'},
-{ id: 4, content: 'Học code tại CodersX'}
+  { todo: "Đi chợ" },
+  { todo: "Nấu cơm" },
+  { todo: "Rửa bát" },
+  { todo: "Học code tại CodersX" }
 ];
 
 // https://expressjs.com/en/starter/basic-routing.html
-app.get('/', (request, response) => {
-  response.render('index', {
+app.get("/", function(req, res) {
+  res.render("index", {
     todoLists: todoLists
   });
 });
 
-app.get('/todos', (request, response) => {
-  var q = request.query.q;
-  var matchedToDo = todoLists.filter(function(todo) {
-    return todo.content.toLowerCase().indexOf(q.toLowerCase()) !== -1;
-  })
-  response.render('todo', {
-    todoLists: matchedToDo
+app.get("/todos", function(req, res) {
+  res.render("todo", {
+    todoLists: todoLists
   });
-  //var urlParams = new URLSearchParams(window.location.search);
-  //var queryValue = urlParams.get('q');
-  var input = document.getElementsByName('q');
-  input[0].value = q;
+});
+
+app.get("/todos", function(req, res) {
+  var q = req.query.q;
+  var matchedTask = todoLists.filter(function(task) {
+    return task.todo.toLowerCase().indexOf(q.toLowerCase()) !== -1;
+  });
+  res.render("todos", {
+    todoLists: matchedTask
+  });
+});
+
+app.get("/todos/create", function(req, res) {
+  res.render("create");
+});
+
+app.post("/todos/create", function(req, res) {
+  todoLists.push(req.body);
+  res.redirect("/todos");
 });
 
 // listen for requests :)
