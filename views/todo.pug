@@ -4,5 +4,5 @@ form(action="/todos", method="GET")
     input(type="text", name="q")
     button Search
 ul
-    each task in todoLists
-        li= task.todo
+    each task in todos
+        li= task.text
