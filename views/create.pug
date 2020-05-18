@@ -1,7 +1,11 @@
-h1 Create to do task
+h1 Add a new book
 
-form(action="/todos/create", method="POST")
-    label Content
-    input(type="text", name="text")
+form(action="/books/create", method="POST")
+    label Book Title:     
+    input(type="text", name="title")
+    br
+    br
+    label Book Description: 
+    input(type="text", name="description")
 
     button Create
