@@ -1,96 +1,35 @@
 var express = require("express");
-var shortid = require("shortid");
-
-var db = require("../db");
+var controller = require("../controllers/user.controller");
 
 var router = express.Router();
 
 // Get user
-router.get("/", function(req, res) {
-  res.render("users/index", {
-    users: db.get("users").value()
-  });
-});
+router.get("/", controller.index);
 
-router.get("/users", function(req, res) {
-  res.render("users/index", {
-    users: db.get("users").value()
-  });
-});
+router.get("/users", controller.index);
 
 // Create user
 
-router.get("/create", function(req, res) {
-  res.render("users/create");
-});
+router.get("/create", controller.create);
 
-router.post("/create", function(req, res) {
-  req.body.id = shortid.generate();
-  db.get("users")
-    .push(req.body)
-    .write();
-  res.redirect("/users");
-});
+router.post("/create", controller.postCreate);
 
 // Search user
 
-router.get("/search", function(req, res) {
-  var q = req.query.q;
-  // Get data from db
-  var userList = db.get("users").value();
-  // Filter by query
-  var matchedUsers = userList.filter(function(user) {
-    return user.name.toLowerCase().indexOf(q.toLowerCase()) !== -1;
-  });
-  res.render("users/index", {
-    users: matchedUsers
-  });
-});
+router.get("/search", controller.search);
 
 // View user info
 
-router.get("/:id", function(req, res) {
-  var id = req.params.id;
-  var user = db
-    .get("users")
-    .find({ id: id })
-    .value();
-  res.render("users/detail", {
-    user: user
-  });
-});
+router.get("/:id", controller.get);
 
 // Delete user
 
-router.get("/:id/delete", function(req, res) {
-  var id = req.params.id;
-  db.get("users")
-    .remove({ id: id })
-    .write();
-  res.redirect("/users");
-});
+router.get("/:id/delete", controller.delete);
 
 // Update user
 
-router.get("/:id/update", function(req, res) {
-  var id = req.params.id;
-  var user = db
-    .get("users")
-    .find({ id: id })
-    .value();
-  res.render("users/update", {
-    user: user
-  });
-});
+router.get("/:id/update", controller.update);
 
-router.post("/:id/update", function(req, res) {
-  var id = req.params.id;
-  var newName = req.body.name;
-  db.get("users")
-    .find({ id: id })
-    .assign({ name: newName })
-    .write();
-  res.redirect("/users");
-});
+router.post("/:id/update", controller.postUpdate);
 
 module.exports = router;
