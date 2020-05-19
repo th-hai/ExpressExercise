@@ -1,15 +1,11 @@
-h1 Books List
-a(href="/books/create") New
-form(action="/books/search", method="GET")
-    input(type="text", name="q")
-    button Search
-ul
-    each book in books
-        li
-          span= book.title
-          span &nbsp;
-          a(href='/books/'+ book.id) Chi tiết
-          span &nbsp;
-          a(href='/books/'+ book.id +'/update') Cập nhật
-          span &nbsp;
-          a(href='/books/'+ book.id+'/delete') Xoá
+h1 Book Management System
+
+a(href="/books") Books
+br
+a(href="/users") Users
+br
+a(href="/transactions") Transactions
+
+
+      
+  
