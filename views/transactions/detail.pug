@@ -8,3 +8,10 @@ p
     b Book:
     span &nbsp;
     span= book.title
+    br
+    b Complete: 
+    span &nbsp;
+    if transaction.isComplete
+      span= 'Yes'
+    else
+      span= 'No'

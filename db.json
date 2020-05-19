@@ -48,12 +48,20 @@
     {
       "userId": "pnsXMPVCL",
       "bookId": "BTIQp-BR_",
-      "id": "UbakD7kbM"
+      "id": "UbakD7kbM",
+      "isComplete": true
     },
     {
       "userId": "ic7VZu-l2",
       "bookId": "BTIQp-BR_",
-      "id": "F7OFrb5YP"
+      "id": "F7OFrb5YP",
+      "isComplete": true
+    },
+    {
+      "userId": "XbYRxlh-B",
+      "bookId": "BTIQp-BR_",
+      "id": "jZua9R-JZ",
+      "isComplete": true
     }
   ]
 }
