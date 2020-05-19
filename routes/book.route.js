@@ -1,96 +1,35 @@
 var express = require("express");
-var shortid = require("shortid");
-
-var db = require("../db");
+var controller = require("../controllers/book.controller");
 
 var router = express.Router();
 
 // Get book
-router.get("/", function(req, res) {
-  res.render("books/index", {
-    books: db.get("books").value()
-  });
-});
+router.get("/", controller.index);
 
-router.get("/books", function(req, res) {
-  res.render("books/index", {
-    books: db.get("books").value()
-  });
-});
+router.get("/books", controller.index);
 
 // Create book
 
-router.get("/create", function(req, res) {
-  res.render("books/create");
-});
+router.get("/create", controller.create);
 
-router.post("/create", function(req, res) {
-  req.body.id = shortid.generate();
-  db.get("books")
-    .push(req.body)
-    .write();
-  res.redirect("/books");
-});
+router.post("/create", controller.postCreate);
 
 // Search book
 
-router.get("/search", function(req, res) {
-  var q = req.query.q;
-  // Get data from db
-  var bookList = db.get("books").value();
-  // Filter by query
-  var matchedBooks = bookList.filter(function(book) {
-    return book.name.toLowerCase().indexOf(q.toLowerCase()) !== -1;
-  });
-  res.render("books/index", {
-    books: matchedBooks
-  });
-});
+router.get("/search", controller.search);
 
 // View book info
 
-router.get("/:id", function(req, res) {
-  var id = req.params.id;
-  var book = db
-    .get("books")
-    .find({ id: id })
-    .value();
-  res.render("books/detail", {
-    book: book
-  });
-});
+router.get("/:id", controller.get);
 
 // Delete book
 
-router.get("/:id/delete", function(req, res) {
-  var id = req.params.id;
-  db.get("books")
-    .remove({ id: id })
-    .write();
-  res.redirect("/books");
-});
+router.get("/:id/delete", controller.delete);
 
 // Update book
 
-router.get("/:id/update", function(req, res) {
-  var id = req.params.id;
-  var book = db
-    .get("books")
-    .find({ id: id })
-    .value();
-  res.render("books/update", {
-    book: book
-  });
-});
+router.get("/:id/update", controller.update);
 
-router.post("/:id/update", function(req, res) {
-  var id = req.params.id;
-  var newTitle = req.body.title;
-  db.get("books")
-    .find({ id: id })
-    .assign({ title: newTitle })
-    .write();
-  res.redirect("/books");
-});
+router.post("/:id/update", controller.postUpdate);
 
 module.exports = router;
