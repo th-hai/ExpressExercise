@@ -1,5 +1,17 @@
-h1 Update #{book.title} Book Title
+extends ../layouts/common
 
-form(action="/books/"+ book.id + "/update", method="POST")
-    input(type="text", name="title", value=book.title)
-    button Update
+block content
+  nav(class="navbar navbar-expand-lg navbar-light bg-light")
+    a(class="navbar-brand" href="/") Home
+    ul(class="navbar-nav")
+      li(class="nav-item")
+        a(class="nav-link" href="/books") Books
+      li(class="nav-item")
+        a(class="nav-link" href="/users") Users
+      li(class="nav-item")
+        a(class="nav-link" href="/transactions") Transactions
+  h2(class="ml-3") Update #{book.title} Book Title
+
+  form(action="/books/"+ book.id + "/update", method="POST", class="d-flex")
+      input(type="text", name="title", class="form-control mr-sm-2 ml-3 mr-2", value=book.title)
+      button(class="btn btn-outline-success my-2 my-sm-0 mr-2") Update

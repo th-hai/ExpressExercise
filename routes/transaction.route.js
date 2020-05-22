@@ -27,3 +27,7 @@ router.get("/:id", controller.get);
 router.get("/:id/delete", controller.delete);
 
 module.exports = router;
+
+// Complete transaction
+
+router.get("/:id/complete", controller.complete);

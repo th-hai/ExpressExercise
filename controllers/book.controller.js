@@ -31,7 +31,7 @@ module.exports.search = function(req, res) {
   var bookList = db.get("books").value();
   // Filter by query
   var matchedBooks = bookList.filter(function(book) {
-    return book.name.toLowerCase().indexOf(q.toLowerCase()) !== -1;
+    return book.title.toLowerCase().indexOf(q.toLowerCase()) !== -1;
   });
   res.render("books/index", {
     books: matchedBooks

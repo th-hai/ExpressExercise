@@ -19,6 +19,7 @@ module.exports.create = function(req, res) {
 
 module.exports.postCreate = function(req, res) {
   req.body.id = shortid.generate();
+  req.body.isComplete = false;
   db.get("transactions")
     .push(req.body)
     .write();
@@ -53,6 +54,7 @@ module.exports.get = function(req, res) {
   var user = db.get('users').find({ id: uId}).value();
   var book = db.get('books').find({ id: bId}).value();
   res.render("transactions/detail", {
+    transaction: transaction,
     user: user,
     book: book
   });
@@ -68,3 +70,14 @@ module.exports.delete = function(req, res) {
   res.redirect("/transactions");
 };
 
+
+// Complete transaction
+
+module.exports.complete = function(req, res) {
+  var id = req.params.id;
+  db.get("transactions")
+    .find({ id: id })
+    .assign({ isComplete : true })
+    .write();
+  res.redirect("/transactions");
+}
