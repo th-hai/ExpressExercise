@@ -1,5 +1,17 @@
-h1 Update User Name
+extends ../layouts/common
 
-form(action="/users/"+ user.id + "/update", method="POST")
-    input(type="text", name="name", value=user.name)
-    button Update
+block content
+  nav(class="navbar navbar-expand-lg navbar-light bg-light")
+    a(class="navbar-brand" href="/") Home
+    ul(class="navbar-nav")
+      li(class="nav-item")
+        a(class="nav-link" href="/books") Books
+      li(class="nav-item")
+        a(class="nav-link" href="/users") Users
+      li(class="nav-item")
+        a(class="nav-link" href="/transactions") Transactions  
+  h2(class="ml-3") Enter new user name
+
+  form(action="/users/"+ user.id + "/update", method="POST", class="d-flex")
+      input(type="text", name="name", class="form-control mr-sm-2 ml-3 mr-2", value=user.name)
+      button(class="btn btn-outline-success my-2 my-sm-0 mr-2") Update
