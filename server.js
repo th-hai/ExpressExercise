@@ -10,11 +10,16 @@ var port = 3000;
 app.set("view engine", "pug");
 app.set("views", "./views");
 
+var favicon = require('serve-favicon');
+
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
 app.use(bodyParser.json());
+app.use(express.static('public'));
+//app.use(express.favicon('/public/images/favicon.png'));
 
 app.get("/", function(req, res) {
   res.render("index");
