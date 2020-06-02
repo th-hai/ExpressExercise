@@ -12,6 +12,9 @@ block content
         a(class="nav-link" href="/transactions") Transactions  
   h1(class="ml-3") Transactions List
   a(class="btn btn-info btn-sm ml-3 mb-2", href="/transactions/create") New transaction
+  if errors
+        each error in errors
+            .alert.px-3.alert-danger= error
   form(action="/transactions/search", method="GET", class="d-flex")
       input(type="text", name="q", placeholder="Transaction ID ...", class="form-control mr-sm-2 ml-3")
       button(class="btn btn-outline-success my-2 my-sm-0 mr-2") Search

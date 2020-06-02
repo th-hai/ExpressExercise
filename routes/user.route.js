@@ -1,6 +1,8 @@
 var express = require("express");
 var controller = require("../controllers/user.controller");
 
+var validate = require("../validate/user.validate");
+
 var router = express.Router();
 
 // Get user
@@ -12,7 +14,7 @@ router.get("/users", controller.index);
 
 router.get("/create", controller.create);
 
-router.post("/create", controller.postCreate);
+router.post("/create", validate.postCreate, controller.postCreate);
 
 // Search user
 
@@ -30,6 +32,6 @@ router.get("/:id/delete", controller.delete);
 
 router.get("/:id/update", controller.update);
 
-router.post("/:id/update", controller.postUpdate);
+router.post("/:id/update",controller.postUpdate);
 
 module.exports = router;
