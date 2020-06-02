@@ -6,14 +6,14 @@ module.exports.index = function(req, res) {
   res.render("transactions/index", {
     transactions: db.get("transactions").value()
   });
-}
+};
 
 // Create transaction
 
 module.exports.create = function(req, res) {
   res.render("transactions/create", {
-    users: db.get('users').value(),
-    books: db.get('books').value()
+    users: db.get("users").value(),
+    books: db.get("books").value()
   });
 };
 
@@ -51,8 +51,14 @@ module.exports.get = function(req, res) {
     .value();
   var uId = transaction.userId;
   var bId = transaction.bookId;
-  var user = db.get('users').find({ id: uId}).value();
-  var book = db.get('books').find({ id: bId}).value();
+  var user = db
+    .get("users")
+    .find({ id: uId })
+    .value();
+  var book = db
+    .get("books")
+    .find({ id: bId })
+    .value();
   res.render("transactions/detail", {
     transaction: transaction,
     user: user,
@@ -70,14 +76,30 @@ module.exports.delete = function(req, res) {
   res.redirect("/transactions");
 };
 
-
 // Complete transaction
 
 module.exports.complete = function(req, res) {
   var id = req.params.id;
-  db.get("transactions")
+  var errors = [];
+  var transactionList = db.get("transactions").value();
+  var trans = db
+    .get("transactions")
     .find({ id: id })
-    .assign({ isComplete : true })
-    .write();
+    .value();
+  if (trans === undefined) {
+    errors.push("ID is not valid.");
+  } else {
+    db.get("transactions")
+      .find({ id: id })
+      .assign({ isComplete: true })
+      .write();
+  }
+  if (errors.length) {
+    res.render("transactions/index", {
+      errors: errors,
+      transactions: transactionList
+    });
+    return;
+  }
   res.redirect("/transactions");
-}
+};
