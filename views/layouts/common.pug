@@ -2,5 +2,25 @@ html
   head
     link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css", integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk", crossorigin="anonymous")
     link(rel="icon" type="image/png" href="/images/favicon.png")
+    nav.navbar.navbar-expand-lg.navbar-light.bg-light
+      a.navbar-brand(href='/') Home
+      button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarNav', aria-controls='navbarNav', aria-expanded='false', aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+      #navbarNav.collapse.navbar-collapse
+        if (!user)
+          
+        else
+          if(user.isAdmin)
+            ul.navbar-nav
+              li.nav-item
+                a.nav-link(href='/books') Books
+              li.nav-item
+                a.nav-link(href='/users') Users
+          else
+            ul.navbar-nav
+              li.nav-item
+                a.nav-link(href='/transactions') Transactions
+          
+    .container.pt-5
   body
     block content
