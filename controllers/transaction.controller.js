@@ -3,8 +3,11 @@ var shortid = require("shortid");
 
 // Transaction list
 module.exports.index = function(req, res) {
+  var userId = req.cookies.userId;
+  var transactions = db.get('transactions').filter({ userId: userId }).value();
+  console.log(transactions)
   res.render("transactions/index", {
-    transactions: db.get("transactions").value()
+    transactions: transactions
   });
 };
 
