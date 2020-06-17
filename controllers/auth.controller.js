@@ -1,5 +1,7 @@
+require("dotenv").config();
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+const mailgun = require("mailgun-js");
 var db = require("../db");
 
 // Index
@@ -50,9 +52,23 @@ module.exports.postLogin = function(req, res) {
       errors: ["You are not allow to login anymore"],
       values: req.body
     });
-    return;
+    const DOMAIN = "sandbox2d1525556a5c4cb4adf6bb371efb82c1.mailgun.org";
+    const mg = mailgun({ apiKey: process.env.APIKEY, domain: DOMAIN });
+    const data = {
+      from:
+        "Mailgun Sandbox <postmaster@sandbox2d1525556a5c4cb4adf6bb371efb82c1.mailgun.org>",
+      to: user.email,
+      subject: "Login Notification",
+      text: "Someone are trying to log in to your account!"
+    };
+    mg.messages().send(data, function(error, body) {
+      console.log(body);
+    });
   }
 
-  res.cookie("userId", user.id);
+  res.cookie("userId", user.id, {
+    signed: true
+  });
+  
   res.redirect("/");
 };

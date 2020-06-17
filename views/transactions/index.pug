@@ -9,21 +9,30 @@ block content
   form(action="/transactions/search", method="GET", class="d-flex")
       input(type="text", name="q", placeholder="Transaction ID ...", class="form-control mr-sm-2 ml-3")
       button(class="btn btn-outline-success my-2 my-sm-0 mr-2") Search
-  table(class="ml-3")
-    tr(class="table-danger")
-      th Id
-      th Book
-      th Action
+  ul.list-group.mx-3
     each transaction in transactions
-      tr
-        td= transaction.id
-        td= transaction.bookId
-        td 
-          a(class="btn btn-primary btn-sm", href='/transactions/'+ transaction.id) Chi tiết
-          span &nbsp;
-          a(class="btn btn-danger btn-sm", href='/transactions/'+ transaction.id+'/delete') Xoá
-          span &nbsp;
-          a(class="btn btn-success btn-sm", href='/transactions/'+ transaction.id+'/complete') Hoàn thành
+      li.list-group-item #[strong Transaction ID: ]
+        span= transaction.id
+      li.list-group-item #[strong Book ID: ]
+        span= transaction.bookId
+      li.list-group-item 
+        a(class="btn btn-primary btn-sm", href='/transactions/'+ transaction.id) Chi tiết
+        span &nbsp;
+        a(class="btn btn-danger btn-sm", href='/transactions/'+ transaction.id+'/delete') Xoá    
+
+  ul.pagination.justify-content-end.mr-2.mt-2
+    li.page-item
+      a.page-link(href='/transactions?page='+(page-1), aria-label='Previous')
+        span(aria-hidden='true') &laquo;
+    - for (var i = 1; i <= minPage; ++i) {
+      li.page-item
+      a.page-link(href='/transactions?page='+i)= i 
+    - }
+    li.page-item
+      a.page-link(href='/transactions?page='+(page+1), aria-label='Next')
+        span(aria-hidden='true') &raquo;   
+
+    
   
           
 

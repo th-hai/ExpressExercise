@@ -1,8 +1,14 @@
 extends ../layouts/common
 
 block content
-  h2(class="ml-3") Update #{book.title} Book Title
-
-  form(action="/books/"+ book.id + "/update", method="POST", class="d-flex")
-      input(type="text", name="title", class="form-control mr-sm-2 ml-3 mr-2", value=book.title)
-      button(class="btn btn-outline-success my-2 my-sm-0 mr-2") Update
+  h2(class="ml-3") Update #{book.title} Book Information
+  
+  form(action="/books/"+ book.id + "/update", method="POST", class="mx-3")
+        h4 Book Title:     
+        input(type="text", class="form-control mb-2", name="title", value=book.title)
+        h4 Image URL:     
+        input(type="text", class="form-control mb-2", name="imageUrl", value=book.imageUrl)
+        h4 Book Description: 
+        textarea(class="form-control", rows="5", name="description", placeholder=book.description)
+        br
+        button(class="btn btn-outline-success my-2 my-sm-0") Update

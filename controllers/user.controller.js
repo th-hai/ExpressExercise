@@ -4,8 +4,21 @@ var shortid = require("shortid");
 // User List
 
 module.exports.index = function(req, res) {
+  var size = db.get("users").value().length;
+  var page = parseInt(req.query.page) || 1;
+  var minPage = 3;
+  var perPage = 8;
+  var totalPage = parseInt(size / perPage);
+  if (totalPage > minPage) minPage = totalPage;
+  var drop = (page - 1) * perPage;
   res.render("users/index", {
-    users: db.get("users").value()
+    users: db
+      .get("users")
+      .drop(drop)
+      .take(perPage)
+      .value(),
+    page: page,
+    minPage: minPage
   });
 };
 
@@ -78,9 +91,15 @@ module.exports.update = function(req, res) {
 module.exports.postUpdate = function(req, res) {
   var id = req.params.id;
   var newName = req.body.name;
+  var newUrl = req.body.avatarUrl;
+  var newEmail = req.body.email;
+  var newPhone = req.body.phone;
   db.get("users")
     .find({ id: id })
     .assign({ name: newName })
+    .assign({ avatarUrl: newUrl })
+    .assign({ email: newEmail })
+    .assign({ phone: newPhone })
     .write();
   res.redirect("/users");
 };

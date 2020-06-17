@@ -3,6 +3,14 @@ extends ../layouts/common
 block content
   h2(class="ml-3") Enter new user name
   
-  form(action="/users/"+ user.id + "/update", method="POST", class="d-flex")
-      input(type="text", name="name", class="form-control mr-sm-2 ml-3 mr-2", value=user.name)
-      button(class="btn btn-outline-success my-2 my-sm-0 mr-2") Update
+  form(action="/users/"+ user.id + "/update", method="POST", class="mx-3")
+      h4 User Name:     
+        input(type="text", class="form-control mb-2", name="name", value=user.name)
+        h4 Avatar URL:     
+        input(type="text", class="form-control mb-2", name="avatarUrl", value=user.avatarUrl)
+        h4 Email:     
+        input(type="text", class="form-control mb-2", name="email", value=user.email)
+        h4 Phone Number:     
+        input(type="text", class="form-control mb-2", name="phone", value=user.phone)
+        br
+        button(class="btn btn-outline-success my-2 my-sm-0") Update
