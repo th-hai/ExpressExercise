@@ -4,8 +4,13 @@ block content
   h2(class="ml-3") Book Detail
   
   div(class="card-body")
-    h5(class="card-title")
+    h5(class="card-title") Title:
+      br
       span= book.title
-    p(class="card-text") 
+    img(src=book.imageUrl, width=400, height=400)
+    hr
+    p(class="card-text") #[strong Description:]
+      br
       span= book.description
+      
     a(href="/books", class="btn btn-primary") Go back

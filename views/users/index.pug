@@ -3,17 +3,32 @@ extends ../layouts/common
 block content
   h1(class="ml-3") Users List
   a(class="btn btn-info btn-sm ml-3 mb-2", href="/users/create") New user
+
   form(action="/users/search", method="GET", class="d-flex")
       input(type="text", name="q", placeholder="User name ...", class="form-control mr-sm-2 ml-3")
       button(class="btn btn-outline-success my-2 my-sm-0 mr-2") Search
-  ul
+  .row.mx-2
       each user in users
-          li(class="mt-2")
-            span= user.name
-            span &nbsp;
-            a(class="btn btn-primary btn-sm", href='/users/'+ user.id) Chi tiết
-            span &nbsp;
-            a(class="btn btn-success btn-sm", href='/users/'+ user.id +'/update') Cập nhật
-            span &nbsp;
-            a(class="btn btn-danger btn-sm", href='/users/'+ user.id+'/delete') Xoá
-          
+          .col-sm-6.col-md-4.col-lg-3
+              .card.mb-3
+                  img.card-img-top(src=user.avatarUrl)
+                  .card-body
+                      h5.card-title= user.name
+                      p.card-text= user.email
+                      a(class="btn btn-primary btn-sm", href='/users/'+ user.id) Chi tiết
+                      span &nbsp;
+                      a(class="btn btn-success btn-sm", href='/users/'+ user.id +'/update') Cập nhật
+                      span &nbsp;
+                      a(class="btn btn-danger btn-sm", href='/users/'+ user.id+'/delete') Xoá                
+  ul.pagination.justify-content-end.mr-2
+    li.page-item
+      a.page-link(href='/users?page='+(page-1), aria-label='Previous')
+        span(aria-hidden='true') &laquo;
+    - for (var i = 1; i <= minPage; ++i) {
+      li.page-item
+      a.page-link(href='/users?page='+i)= i 
+    - }
+    li.page-item
+      a.page-link(href='/users?page='+(page+1), aria-label='Next')
+        span(aria-hidden='true') &raquo; 
+            

@@ -1,3 +1,4 @@
+require('dotenv').config();
 var bodyParser = require("body-parser");
 var express = require("express");
 var authRoute = require('./routes/auth.route');
@@ -13,7 +14,7 @@ var port = 3000;
 
 app.set("view engine", "pug");
 app.set("views", "./views");
-app.use(cookieParser());
+app.use(cookieParser(process.env.SECRET));
 
 var favicon = require('serve-favicon');
 
@@ -27,7 +28,7 @@ app.use(express.static('public'));
 //app.use(express.favicon('/public/images/favicon.png'));
 
 app.get("/", function(req, res) {
-  var userId = req.cookies.userId;
+  var userId = req.signedCookies.userId;
   var user = db.get('users').find({ id: userId }).value();
   if(!user) {
     res.redirect('/auth/login');

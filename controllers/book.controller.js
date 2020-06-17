@@ -4,8 +4,22 @@ var shortid = require("shortid");
 // Book list
 
 module.exports.index = function(req, res) {
+  var size = db.get("books").value().length;
+  var page = parseInt(req.query.page) || 1;
+  var minPage = 3;
+  var perPage = 8;
+  var totalPage = parseInt(size / perPage);
+  if (totalPage > minPage) minPage = totalPage;
+  //console.log(totalPage);
+  var drop = (page - 1) * perPage;
   res.render("books/index", {
-    books: db.get("books").value()
+    books: db
+      .get("books")
+      .drop(drop)
+      .take(perPage)
+      .value(),
+    page: page,
+    minPage: minPage
   });
 };
 
@@ -77,9 +91,13 @@ module.exports.update = function(req, res) {
 module.exports.postUpdate = function(req, res) {
   var id = req.params.id;
   var newTitle = req.body.title;
+  var newUrl = req.body.imageUrl;
+  var newDesc = req.body.description;
   db.get("books")
     .find({ id: id })
     .assign({ title: newTitle })
+    .assign({ imageUrl: newUrl })
+    .assign({ description: newDesc })
     .write();
   res.redirect("/books");
 };

@@ -3,11 +3,26 @@ var shortid = require("shortid");
 
 // Transaction list
 module.exports.index = function(req, res) {
-  var userId = req.cookies.userId;
+  var userId = req.signedCookies.userId;
+   console.log(userId);
   var transactions = db.get('transactions').filter({ userId: userId }).value();
-  console.log(transactions)
+ // console.log(transactions)
+  var size = transactions.length;
+  var page = parseInt(req.query.page) || 1;
+  var minPage = 3;
+  var perPage = 4;
+  var totalPage = parseInt(size / perPage);
+  if (totalPage > minPage) minPage = totalPage;
+  //console.log(totalPage);
+  var drop = (page - 1) * perPage;
   res.render("transactions/index", {
-    transactions: transactions
+    transactions: db
+      .get("transactions").filter({ userId: userId })
+      .drop(drop)
+      .take(perPage)
+      .value(),
+    page: page,
+    minPage: minPage
   });
 };
 
